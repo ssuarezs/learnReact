@@ -1,65 +1,62 @@
 import React from 'react'
-import { useFormik } from 'formik'
+import { Formik, Form, ErrorMessage } from 'formik'
+import TextInput from './components/textInput'
+import CheckBox from './components/checkBox'
+import Select from './components/select'
+import Radio from './components/radio'
 
-const App = () => { 
-  const validate = (values) => {
+const validate = (values) => {
     const errors = {}
     if(!values.name){
-      errors.name = 'Requerido'
-    }else if(values.name.length < 5){
+      errors.name = 'Required'
+    } else if(values.name.length < 5){
       errors.name = 'The name is too short'
     }
     if(!values.lastname){
-      errors.lastname = 'Requerido'
-    }else if(values.lastname.length < 5){
+      errors.lastname = 'Required'
+    } else if(values.lastname.length < 5){
       errors.lastname = 'The last name is too short'
     }
-    return errors
+  if(!values.radio){
+    errors.radio='Required'
   }
-  const formik = useFormik({
-    initialValues: {
-      name: '', lastname: '', email: ''
-    },
-    validate,
-    onSubmit: values => console.log(values)
-  })
+    return errors
+}
+const App = () => { 
   return(
-    <form onSubmit={formik.handleSubmit}>
-      <label>Name</label>
-      <input 
-        name='name'
-        type='text'
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.name}
-      />
-      {formik.touched.name && formik.errors.name ? 
-        <div>{formik.errors.name}</div> : null}
+  <Formik
+    initialValues={{ 
+      name: '', lastname: '',
+      email: '', tiger: '',
+      accept: false, radio: '' 
+    }}
+    validate={validate}
+    onSubmit={values => console.log(values)} 
+  >
+    <Form>
+      <TextInput name='name' label='Name' />
       <br />
-      <label>Last Name</label>
-      <input 
-        name='lastname'
-        type='text'
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.lastname}
-      />
-      {formik.touched.lastname && formik.errors.lastname ? 
-        <div>{formik.errors.lastname}</div> : null}
+      <TextInput name='lastname' label='Last Name' />
       <br />
-      <label>Email</label>
-      <input 
-        name='email'
-        type='email'
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
-      />
-      {formik.touched.email && formik.errors.email ? 
-        <div>{formik.errors.email}</div> : null}
+      <TextInput name='email' label='Email' />
+      <br />
+      <Select label='Type of tiger' name='tiger'>
+        <option value=''>Select Tiger</option>
+        <option value='crazy'>Crazy Tiger</option>
+        <option value='good'>Good Tiger</option>
+        <option value='bad'>Bad Tiger</option>
+      </Select>
+      <CheckBox name='accept'>
+        Accept terms y conditions
+      </CheckBox>
+      <Radio name='radio' value="chancho1" label='chanch1'/>
+      <Radio name='radio' value="chancho2" label='chanch2'/>
+      <Radio name='radio' value="chancho3" label='chanch3'/>
+      <ErrorMessage name='radio'/>
       <br />
       <button type='submit'>Send</button>
-    </form>
+    </Form>
+  </Formik>
   )
 }
 export default App;
