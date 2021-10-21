@@ -20,7 +20,7 @@ const validate = (values) => {
   if(!values.radio){
     errors.radio='Required'
   }
-    return errors
+  return errors
 }
 const App = () => { 
   return(
