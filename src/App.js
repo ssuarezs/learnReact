@@ -23,6 +23,7 @@ const Result = styled.p`
   font-size: 18px;
   font-weight: 600;
   margin: 0px;
+
 `
 
 const App = () => { 
