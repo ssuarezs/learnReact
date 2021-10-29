@@ -1,0 +1,3 @@
+#! /bin/bash
+
+echo "Comando propio del curso linux"
